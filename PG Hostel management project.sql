@@ -1,18 +1,28 @@
-SQL PG Hostel Management Project:
+-- =====================================================
+-- PG HOSTEL STUDENT MANAGEMENT SYSTEM
+-- Beginner SQL Project
+-- =====================================================
 
-1. Database Creation:
-
+-- 1. CREATE DATABASE
 CREATE DATABASE IF NOT EXISTS pg_hostel_management;
+
 USE pg_hostel_management;
 
-=> If exists the tables to delete then use:
+
+-- =====================================================
+-- 2. REMOVE OLD TABLES FOR CLEAN RE-RUN
+-- =====================================================
 
 DROP TABLE IF EXISTS Payments;
 DROP TABLE IF EXISTS Visitors;
 DROP TABLE IF EXISTS Students;
 DROP TABLE IF EXISTS Rooms;
 
-2. Create Rooms Table
+
+-- =====================================================
+-- 3. CREATE ROOMS TABLE
+-- =====================================================
+
 CREATE TABLE Rooms (
     room_id INT PRIMARY KEY AUTO_INCREMENT,
     room_number VARCHAR(10) NOT NULL UNIQUE,
@@ -27,7 +37,11 @@ CREATE TABLE Rooms (
     CHECK (available_beds >= 0)
 );
 
-3. Create Students Table
+
+-- =====================================================
+-- 4. CREATE STUDENTS TABLE
+-- =====================================================
+
 CREATE TABLE Students (
     student_id INT PRIMARY KEY AUTO_INCREMENT,
     student_name VARCHAR(100) NOT NULL,
@@ -43,7 +57,11 @@ CREATE TABLE Students (
         REFERENCES Rooms(room_id)
 );
 
-4. Create Payments Table
+
+-- =====================================================
+-- 5. CREATE PAYMENTS TABLE
+-- =====================================================
+
 CREATE TABLE Payments (
     payment_id INT PRIMARY KEY AUTO_INCREMENT,
     student_id INT NOT NULL,
@@ -59,7 +77,10 @@ CREATE TABLE Payments (
         REFERENCES Students(student_id)
 );
 
-5. Create Visitors Table
+
+-- =====================================================
+-- 6. CREATE VISITORS TABLE
+-- =====================================================
 
 CREATE TABLE Visitors (
     visitor_id INT PRIMARY KEY AUTO_INCREMENT,
@@ -73,8 +94,9 @@ CREATE TABLE Visitors (
 );
 
 
-6. Insert Room Data
-We use 5 rooms.
+-- =====================================================
+-- 7. INSERT ROOMS
+-- =====================================================
 
 INSERT INTO Rooms
 (room_number, room_type, capacity, monthly_rent, available_beds)
@@ -86,26 +108,47 @@ VALUES
 ('105', 'Double', 2, 4500, 0);
 
 
-
-7. Insert Student Data:
+-- =====================================================
+-- 8. INSERT STUDENTS
+-- =====================================================
 
 INSERT INTO Students
 (student_name, gender, phone, college, course, room_id)
 VALUES
-('Ramana', 'Male', '9876500001', 'Aditya College of Engineering', 'MCA', 1),
-('Mukesh', 'Male', '9876500002', 'Andhra University', 'B.Tech', 2),
-('Anusha', 'Female', '9876500003', 'GITAM University', 'B.Sc', 2),
-('Srinadh', 'Male', '9876500004', 'Raghu Engineering College', 'B.Tech', 3),
-('Charan', 'Male', '9876500005', 'Aditya College of Engineering', 'MCA', 3),
-('Priya', 'Female', '9876500006', 'Andhra University', 'MCA', 4),
-('Bhanu', 'Male', '9876500007', 'GITAM University', 'BBA', 4),
-('Sampath', 'Male', '9876500008', 'Raghu Engineering College', 'B.Tech', 4),
-('Harsha', 'Male', '9876500009', 'Aditya College of Engineering', 'MCA', 5),
-('Kiran', 'Male', '9876500010', 'Andhra University', 'B.Tech', 5);
+('Ramana', 'Male', '9876500001',
+ 'Aditya College of Engineering', 'MCA', 1),
+
+('Anil', 'Male', '9876500002',
+ 'Andhra University', 'B.Tech', 2),
+
+('Anusha', 'Female', '9876500003',
+ 'GITAM University', 'B.Sc', 2),
+
+('Bharat', 'Male', '9876500004',
+ 'Raghu Engineering College', 'B.Tech', 3),
+
+('Charan', 'Male', '9876500005',
+ 'Aditya College of Engineering', 'MCA', 3),
+
+('Deepika', 'Female', '9876500006',
+ 'Andhra University', 'MCA', 4),
+
+('Farhan', 'Male', '9876500007',
+ 'GITAM University', 'BBA', 4),
+
+('Gowtham', 'Male', '9876500008',
+ 'Raghu Engineering College', 'B.Tech', 4),
+
+('Harsha', 'Male', '9876500009',
+ 'Aditya College of Engineering', 'MCA', 5),
+
+('Kiran', 'Male', '9876500010',
+ 'Andhra University', 'B.Tech', 5);
 
 
-
-8. Insert Payment Data:
+-- =====================================================
+-- 9. INSERT PAYMENTS
+-- =====================================================
 
 INSERT INTO Payments
 (student_id, payment_date, amount, payment_status, payment_month)
@@ -130,7 +173,10 @@ VALUES
 
 (9, '2026-10-05', 4500, 'Paid', '2026-10-01');
 
-10. Insert Visitor Data:
+
+-- =====================================================
+-- 10. INSERT VISITORS
+-- =====================================================
 
 INSERT INTO Visitors
 (student_id, visitor_name, relationship, visit_date)
@@ -142,3 +188,573 @@ VALUES
 (6, 'Prakash', 'Father', '2026-10-06'),
 (8, 'Vijay', 'Brother', '2026-10-07'),
 (9, 'Ramesh', 'Father', '2026-10-08');
+
+
+-- =====================================================
+-- 11. BASIC QUERIES
+-- =====================================================
+
+SELECT * FROM Students;
+
+SELECT student_name, phone, course
+FROM Students;
+
+SELECT *
+FROM Students
+WHERE gender = 'Male';
+
+SELECT DISTINCT course
+FROM Students;
+
+SELECT *
+FROM Students
+ORDER BY student_name ASC;
+
+SELECT *
+FROM Students
+LIMIT 5;
+
+
+-- =====================================================
+-- 12. FILTERING OPERATORS
+-- =====================================================
+
+SELECT * FROM Rooms
+WHERE monthly_rent = 4500;
+
+SELECT * FROM Students
+WHERE gender != 'Female';
+
+SELECT * FROM Rooms
+WHERE monthly_rent > 4000;
+
+SELECT * FROM Rooms
+WHERE monthly_rent < 5000;
+
+SELECT * FROM Rooms
+WHERE monthly_rent >= 4500;
+
+SELECT * FROM Rooms
+WHERE monthly_rent <= 4500;
+
+SELECT * FROM Rooms
+WHERE monthly_rent BETWEEN 3500 AND 5000;
+
+SELECT * FROM Students
+WHERE course IN ('MCA', 'B.Tech');
+
+SELECT * FROM Students
+WHERE course NOT IN ('MCA', 'B.Tech');
+
+SELECT * FROM Students
+WHERE student_name LIKE 'A%';
+
+SELECT * FROM Students
+WHERE student_name LIKE '%a%';
+
+SELECT * FROM Students
+WHERE room_id IS NULL;
+
+SELECT * FROM Students
+WHERE room_id IS NOT NULL;
+
+
+-- =====================================================
+-- 13. AGGREGATE FUNCTIONS
+-- =====================================================
+
+SELECT COUNT(*) AS total_students
+FROM Students;
+
+SELECT SUM(amount) AS total_paid
+FROM Payments
+WHERE payment_status = 'Paid';
+
+SELECT AVG(monthly_rent) AS average_rent
+FROM Rooms;
+
+SELECT MIN(monthly_rent) AS minimum_rent
+FROM Rooms;
+
+SELECT MAX(monthly_rent) AS maximum_rent
+FROM Rooms;
+
+
+-- =====================================================
+-- 14. GROUP BY
+-- =====================================================
+
+SELECT gender, COUNT(*) AS total_students
+FROM Students
+GROUP BY gender;
+
+SELECT room_id, COUNT(*) AS student_count
+FROM Students
+GROUP BY room_id;
+
+SELECT student_id, SUM(amount) AS total_payment
+FROM Payments
+GROUP BY student_id;
+
+
+-- =====================================================
+-- 15. HAVING
+-- =====================================================
+
+SELECT
+    student_id,
+    SUM(amount) AS total_payment
+FROM Payments
+GROUP BY student_id
+HAVING SUM(amount) > 5000;
+
+
+-- =====================================================
+-- 16. STRING FUNCTIONS
+-- =====================================================
+
+SELECT UPPER(student_name) AS student_name
+FROM Students;
+
+SELECT LOWER(student_name) AS student_name
+FROM Students;
+
+SELECT CONCAT(student_name, ' - ', course) AS student_details
+FROM Students;
+
+SELECT student_name, LENGTH(student_name) AS name_length
+FROM Students;
+
+
+-- =====================================================
+-- 17. DATE FUNCTIONS
+-- =====================================================
+
+SELECT CURDATE() AS today;
+
+SELECT
+    payment_date,
+    YEAR(payment_date) AS payment_year
+FROM Payments;
+
+SELECT
+    payment_date,
+    MONTH(payment_date) AS payment_month
+FROM Payments;
+
+SELECT
+    visitor_name,
+    DATEDIFF(CURDATE(), visit_date) AS days_since_visit
+FROM Visitors;
+
+
+-- =====================================================
+-- 18. CASE
+-- =====================================================
+
+SELECT
+    student_id,
+    amount,
+    payment_status,
+    CASE
+        WHEN payment_status = 'Paid'
+            THEN 'Payment Completed'
+        WHEN payment_status = 'Pending'
+            THEN 'Payment Due'
+    END AS payment_message
+FROM Payments;
+
+
+-- =====================================================
+-- 19. INNER JOIN
+-- =====================================================
+
+SELECT
+    s.student_name,
+    r.room_number,
+    r.monthly_rent
+FROM Students s
+INNER JOIN Rooms r
+    ON s.room_id = r.room_id;
+
+
+-- =====================================================
+-- 20. LEFT JOIN
+-- =====================================================
+
+SELECT
+    s.student_name,
+    p.payment_date,
+    p.amount,
+    p.payment_status
+FROM Students s
+LEFT JOIN Payments p
+    ON s.student_id = p.student_id;
+
+
+-- =====================================================
+-- 21. RIGHT JOIN
+-- =====================================================
+
+SELECT
+    s.student_name,
+    r.room_number,
+    r.monthly_rent
+FROM Students s
+RIGHT JOIN Rooms r
+    ON s.room_id = r.room_id;
+
+
+-- =====================================================
+-- 22. CROSS JOIN
+-- =====================================================
+
+SELECT
+    s.student_name,
+    r.room_number
+FROM Students s
+CROSS JOIN Rooms r;
+
+
+-- =====================================================
+-- 23. FULL OUTER JOIN SIMULATION
+-- =====================================================
+
+SELECT
+    s.student_name,
+    r.room_number
+FROM Students s
+LEFT JOIN Rooms r
+    ON s.room_id = r.room_id
+
+UNION
+
+SELECT
+    s.student_name,
+    r.room_number
+FROM Students s
+RIGHT JOIN Rooms r
+    ON s.room_id = r.room_id;
+
+
+-- =====================================================
+-- 24. SUBQUERY
+-- =====================================================
+
+SELECT
+    s.student_name,
+    p.amount
+FROM Students s
+JOIN Payments p
+    ON s.student_id = p.student_id
+WHERE p.amount > (
+    SELECT AVG(amount)
+    FROM Payments
+);
+
+
+-- Highest payment
+
+SELECT
+    s.student_name,
+    p.amount
+FROM Students s
+JOIN Payments p
+    ON s.student_id = p.student_id
+WHERE p.amount = (
+    SELECT MAX(amount)
+    FROM Payments
+);
+
+
+-- Rooms above average rent
+
+SELECT *
+FROM Rooms
+WHERE monthly_rent > (
+    SELECT AVG(monthly_rent)
+    FROM Rooms
+);
+
+
+-- Students with at least one payment
+
+SELECT *
+FROM Students
+WHERE student_id IN (
+    SELECT DISTINCT student_id
+    FROM Payments
+);
+
+
+-- =====================================================
+-- 25. UNION
+-- =====================================================
+
+SELECT student_name AS name
+FROM Students
+
+UNION
+
+SELECT visitor_name AS name
+FROM Visitors;
+
+
+-- =====================================================
+-- 26. UNION ALL
+-- =====================================================
+
+SELECT student_name AS name
+FROM Students
+
+UNION ALL
+
+SELECT visitor_name AS name
+FROM Visitors;
+
+
+-- =====================================================
+-- 27. CTE
+-- =====================================================
+
+WITH StudentPayments AS (
+    SELECT
+        student_id,
+        SUM(amount) AS total_payment
+    FROM Payments
+    WHERE payment_status = 'Paid'
+    GROUP BY student_id
+)
+SELECT
+    s.student_name,
+    sp.total_payment
+FROM Students s
+JOIN StudentPayments sp
+    ON s.student_id = sp.student_id
+WHERE sp.total_payment > 5000;
+
+
+-- =====================================================
+-- 28. VIEW
+-- =====================================================
+
+CREATE VIEW student_room_details AS
+SELECT
+    s.student_name,
+    s.phone,
+    r.room_number,
+    r.room_type,
+    r.monthly_rent
+FROM Students s
+JOIN Rooms r
+    ON s.room_id = r.room_id;
+
+SELECT *
+FROM student_room_details;
+
+
+-- To remove the view:
+-- DROP VIEW student_room_details;
+
+
+-- =====================================================
+-- 29. IMPORTANT INTERVIEW QUERIES
+-- =====================================================
+
+-- Highest rent
+SELECT MAX(monthly_rent) AS highest_rent
+FROM Rooms;
+
+
+-- Second highest rent
+SELECT MAX(monthly_rent) AS second_highest_rent
+FROM Rooms
+WHERE monthly_rent < (
+    SELECT MAX(monthly_rent)
+    FROM Rooms
+);
+
+
+-- Students with pending payment
+SELECT DISTINCT
+    s.student_name
+FROM Students s
+JOIN Payments p
+    ON s.student_id = p.student_id
+WHERE p.payment_status = 'Pending';
+
+
+-- Total students
+SELECT COUNT(*) AS total_students
+FROM Students;
+
+
+-- Students in each room
+SELECT
+    r.room_number,
+    COUNT(s.student_id) AS student_count
+FROM Rooms r
+LEFT JOIN Students s
+    ON r.room_id = s.room_id
+GROUP BY r.room_id, r.room_number;
+
+
+-- Total rent collected
+SELECT SUM(amount) AS total_rent_collected
+FROM Payments
+WHERE payment_status = 'Paid';
+
+
+-- Most expensive room
+SELECT *
+FROM Rooms
+WHERE monthly_rent = (
+    SELECT MAX(monthly_rent)
+    FROM Rooms
+);
+
+
+-- Duplicate phone numbers
+SELECT
+    phone,
+    COUNT(*) AS phone_count
+FROM Students
+GROUP BY phone
+HAVING COUNT(*) > 1;
+
+
+-- Names starting with A
+SELECT *
+FROM Students
+WHERE student_name LIKE 'A%';
+
+
+-- Names containing a
+SELECT *
+FROM Students
+WHERE student_name LIKE '%a%';
+
+
+-- Latest payment
+SELECT *
+FROM Payments
+ORDER BY payment_date DESC
+LIMIT 1;
+
+
+-- Students who never made payment
+SELECT
+    s.student_id,
+    s.student_name
+FROM Students s
+LEFT JOIN Payments p
+    ON s.student_id = p.student_id
+WHERE p.student_id IS NULL;
+
+
+-- Room with maximum students
+SELECT
+    r.room_number,
+    COUNT(s.student_id) AS student_count
+FROM Rooms r
+JOIN Students s
+    ON r.room_id = s.room_id
+GROUP BY r.room_id, r.room_number
+ORDER BY student_count DESC
+LIMIT 1;
+
+
+-- Total payment by each student
+SELECT
+    s.student_name,
+    COALESCE(SUM(p.amount), 0) AS total_payment
+FROM Students s
+LEFT JOIN Payments p
+    ON s.student_id = p.student_id
+GROUP BY s.student_id, s.student_name;
+
+
+-- Students who paid more than 5000
+SELECT
+    s.student_name,
+    SUM(p.amount) AS total_payment
+FROM Students s
+JOIN Payments p
+    ON s.student_id = p.student_id
+WHERE p.payment_status = 'Paid'
+GROUP BY s.student_id, s.student_name
+HAVING SUM(p.amount) > 5000;
+
+
+-- Average monthly rent
+SELECT AVG(monthly_rent) AS average_monthly_rent
+FROM Rooms;
+
+
+-- Top 3 payments
+SELECT
+    payment_id,
+    student_id,
+    amount
+FROM Payments
+ORDER BY amount DESC
+LIMIT 3;
+
+
+-- Student room details
+SELECT
+    s.student_name,
+    s.course,
+    r.room_number,
+    r.room_type,
+    r.monthly_rent
+FROM Students s
+JOIN Rooms r
+    ON s.room_id = r.room_id;
+
+
+-- =====================================================
+-- 30. INDEX
+-- =====================================================
+
+CREATE INDEX idx_student_phone
+ON Students(phone);
+
+
+-- Test index column
+SELECT *
+FROM Students
+WHERE phone = '9876500001';
+
+
+-- =====================================================
+-- 31. TRANSACTION EXAMPLE
+-- =====================================================
+
+START TRANSACTION;
+
+UPDATE Payments
+SET payment_status = 'Paid'
+WHERE payment_id = 4;
+
+SAVEPOINT payment_save;
+
+COMMIT;
+
+
+-- =====================================================
+-- 32. ROLLBACK EXAMPLE
+-- =====================================================
+
+START TRANSACTION;
+
+UPDATE Payments
+SET amount = 9999
+WHERE payment_id = 4;
+
+ROLLBACK;
+
+
+-- =====================================================
+-- END OF PROJECT
+-- =====================================================
